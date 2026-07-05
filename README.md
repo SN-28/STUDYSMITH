@@ -167,8 +167,12 @@ As we transition StudySmith from a hackathon prototype into a production-ready s
 *   🔐 **Enterprise-Grade Identity**: Implementing Google Identity Platform OAuth 2.0 for secure, single-sign-on (SSO) login.
 *   ⚡ **Automated CI/CD Pipeline**: Setting up GitHub Actions that build dockerized images of the FastAPI application and deploy automatically to Google Cloud Run upon code commits.
 *   🔔 **Proactive Messaging Integrations**: Adding WhatsApp and Telegram notification agents to notify students of upcoming high-priority study blocks or hydration breaks.
-#   S T U D Y S M I T H  
- #   S T U D Y S M I T H  
- #   S T U D Y S M I T H  
- #   S T U D Y S M I T H  
+#   S T U D Y S M I T H 
+ 
+ #   S T U D Y S M I T H 
+ 
+ #   S T U D Y S M I T H 
+ 
+ #   S T U D Y S M I T H 
+ 
  
