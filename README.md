@@ -50,21 +50,21 @@ StudySmith combines modern agentic frameworks with a robust, lightweight backend
 ### System Architecture & Workflow Graph
 ```mermaid
 graph TD
-    User(["Student/User"]) -->|Natural Language Input| API[FastAPI Server]
-    API -->|Syllabus Request| Agent[Gemini Concierge Agent]
-    API -->|Datesheet & Routine| Scheduler[AI Study Scheduler]
+    User["Student/User"] -->|Natural Language Input| API["FastAPI Server"]
+    API -->|Syllabus Request| Agent["Gemini Concierge Agent"]
+    API -->|Datesheet & Routine| Scheduler["AI Study Scheduler"]
     
     subgraph Agentic Operations
-        Agent -->|Generate Syllabus| SSchema[Syllabus Schema]
+        Agent -->|Generate Syllabus| SSchema["Syllabus Schema"]
         Agent -->|Generate Materials| MSchema["Markdown Notes & Q&A"]
-        Agent -->|Evaluate Quiz| ESchema[Weak Topics Extractor]
+        Agent -->|Evaluate Quiz| ESchema["Weak Topics Extractor"]
     end
     
     subgraph Scheduling Pipeline
-        Scheduler -->|Cost-Based Load Balancing| Cal[SQLite Planner Table]
+        Scheduler -->|Cost-Based Load Balancing| Cal["SQLite Planner Table"]
     end
     
-    SSchema --> DB[("SQLite Database")]
+    SSchema --> DB["SQLite Database"]
     MSchema --> DB
     ESchema --> DB
     Cal --> DB
@@ -75,7 +75,7 @@ graph TD
 ### Adaptive Learning User Flow
 ```mermaid
 graph TD
-    Start(["1. Start Planning"]) --> Profile["Set Board, Grade & Subjects"]
+    Start["1. Start Planning"] --> Profile["Set Board, Grade & Subjects"]
     Profile --> AI_Syllabus["AI Concierge Generates Syllabus"]
     AI_Syllabus --> Study["Study Active Notes & Flashcards"]
     Study --> Mock_Quiz["Take Practice Quiz"]
