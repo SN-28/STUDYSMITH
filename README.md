@@ -1,17 +1,13 @@
 # StudySmith: Smart Student Planner & Scheduler (Concierge Track)
 ### *Your Autonomous Academic Concierge — Transforming Curriculum Complexity into Effortless Academic Success*
 
-<p align="center">
-  <img src="assets/studysmith_thumbnail.png" alt="StudySmith Thumbnail" width="560px" height="280px" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
-</p>
+![StudySmith Thumbnail](assets/studysmith_thumbnail.png)
 
 ---
 
 **StudySmith** is an autonomous AI student planner and scheduler built for the Google AI Agents Capstone Project. It acts as an academic concierge that translates syllabus files, exam datesheets, and daily routines into highly personalized study schedules, revision plans, and interactive learning aids using natural language. By taking the friction out of educational planning, StudySmith empowers students to focus entirely on learning while the agent dynamically manages the cognitive load of scheduling, tracking, and content curation.
 
-<p align="center">
-  <img src="assets/studysmith_app_interface.png" alt="StudySmith Student Dashboard UI Mockup" width="640px" height="360px" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
-</p>
+![StudySmith Student Dashboard UI Mockup](assets/studysmith_app_interface.png)
 
 ---
 
@@ -32,7 +28,7 @@ StudySmith simplifies complex student logistics by transforming chaotic inputs i
 
 | Phase 1: Chaos Ingestion | Phase 2: Organized Success |
 | :---: | :---: |
-| <img src="assets/studysmith_input_story.png" alt="Phase 1: Ingesting Raw Syllabus and Datesheets" width="640px" height="360px" style="border-radius: 8px;" /> | <img src="assets/studysmith_flowchart.png" alt="Phase 2: Agent Processing Flowchart" width="640px" height="360px" style="border-radius: 8px;" /> |
+| ![Phase 1: Ingesting Raw Syllabus and Datesheets](assets/studysmith_input_story.png) | ![Phase 2: Agent Processing Flowchart](assets/studysmith_flowchart.png) |
 | **From Chaos...** Students paste raw, unstructured datesheets, handwritten notes, and curriculum subjects in natural language. | **...To Structured Clarity** The agent processes tasks through standard JSON schemas and dynamically builds the load-balanced study schedule. |
 
 ---
