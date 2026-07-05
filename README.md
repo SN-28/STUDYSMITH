@@ -155,4 +155,5 @@ As we transition StudySmith from a hackathon prototype into a production-ready s
 #   S T U D Y S M I T H  
  #   S T U D Y S M I T H  
  #   S T U D Y S M I T H  
+ #   S T U D Y S M I T H  
  
