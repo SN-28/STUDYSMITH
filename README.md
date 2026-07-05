@@ -50,13 +50,13 @@ StudySmith combines modern agentic frameworks with a robust, lightweight backend
 ### System Architecture & Workflow Graph
 ```mermaid
 graph TD
-    User([Student/User]) -->|Natural Language Input| API[FastAPI Server]
+    User(["Student/User"]) -->|Natural Language Input| API[FastAPI Server]
     API -->|Syllabus Request| Agent[Gemini Concierge Agent]
     API -->|Datesheet & Routine| Scheduler[AI Study Scheduler]
     
     subgraph Agentic Operations
         Agent -->|Generate Syllabus| SSchema[Syllabus Schema]
-        Agent -->|Generate Materials| MSchema[Markdown Notes & Q&A]
+        Agent -->|Generate Materials| MSchema["Markdown Notes & Q&A"]
         Agent -->|Evaluate Quiz| ESchema[Weak Topics Extractor]
     end
     
@@ -64,22 +64,24 @@ graph TD
         Scheduler -->|Cost-Based Load Balancing| Cal[SQLite Planner Table]
     end
     
-    SSchema & MSchema & ESchema --> DB[(SQLite Database)]
+    SSchema --> DB[("SQLite Database")]
+    MSchema --> DB
+    ESchema --> DB
     Cal --> DB
     DB --> API
-    API -->|Visual Dashboards| UI[Frontend Glassmorphism UI]
+    API -->|Visual Dashboards| UI["Frontend Glassmorphism UI"]
 ```
 
 ### Adaptive Learning User Flow
 ```mermaid
 graph TD
-    Start([1. Start Planning]) --> Profile[Set Board, Grade & Subjects]
-    Profile --> AI_Syllabus[AI Concierge Generates Syllabus]
-    AI_Syllabus --> Study[Study Active Notes & Flashcards]
-    Study --> Mock_Quiz[Take Practice Quiz]
+    Start(["1. Start Planning"]) --> Profile["Set Board, Grade & Subjects"]
+    Profile --> AI_Syllabus["AI Concierge Generates Syllabus"]
+    AI_Syllabus --> Study["Study Active Notes & Flashcards"]
+    Study --> Mock_Quiz["Take Practice Quiz"]
     Mock_Quiz --> Eval{Are Answers Correct?}
-    Eval -- Yes --> Mastery[Move to Next Chapter]
-    Eval -- No --> Remediation[AI Extracts Weak Topics & Reschedules Review]
+    Eval -- Yes --> Mastery["Move to Next Chapter"]
+    Eval -- No --> Remediation["AI Extracts Weak Topics & Reschedules Review"]
     Remediation --> Study
 ```
 
