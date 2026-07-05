@@ -80,8 +80,8 @@ graph TD
     AI_Syllabus --> Study["Study Active Notes & Flashcards"]
     Study --> Mock_Quiz["Take Practice Quiz"]
     Mock_Quiz --> Eval{Are Answers Correct?}
-    Eval -- Yes --> Mastery["Move to Next Chapter"]
-    Eval -- No --> Remediation["AI Extracts Weak Topics & Reschedules Review"]
+    Eval -->|Yes| Mastery["Move to Next Chapter"]
+    Eval -->|No| Remediation["AI Extracts Weak Topics & Reschedules Review"]
     Remediation --> Study
 ```
 
