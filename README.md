@@ -70,6 +70,19 @@ graph TD
     API -->|Visual Dashboards| UI[Frontend Glassmorphism UI]
 ```
 
+### Adaptive Learning User Flow
+```mermaid
+graph TD
+    Start([1. Start Planning]) --> Profile[Set Board, Grade & Subjects]
+    Profile --> AI_Syllabus[AI Concierge Generates Syllabus]
+    AI_Syllabus --> Study[Study Active Notes & Flashcards]
+    Study --> Mock_Quiz[Take Practice Quiz]
+    Mock_Quiz --> Eval{Are Answers Correct?}
+    Eval -- Yes --> Mastery[Move to Next Chapter]
+    Eval -- No --> Remediation[AI Extracts Weak Topics & Reschedules Review]
+    Remediation --> Study
+```
+
 1.  **Routing & Processing**: User requests (profile customization, syllabus generation, exam datesheet extraction) are received by a FastAPI gateway.
 2.  **Syllabus & Material Synthesis**: If no local records exist, the Gemini agent leverages Pydantic schemas to generate official board-specific syllabi and markdown study materials on-the-fly.
 3.  **Heuristic Cost-Based Scheduling**: Study tasks are automatically spread across the timeline between today and the target exam date, balancing cognitive load (hard vs. easy tasks) and minimizing day-to-day work peaks.

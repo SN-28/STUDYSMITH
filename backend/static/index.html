@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySmith - Personalized Study Assistant & Exam Schedule</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- AUTHENTICATION VIEW -->
+    <div id="auth-view" class="auth-container">
+        <!-- Login Card -->
+        <div id="login-card" class="glass-card">
+            <div class="brand-header">
+                <h1>StudySmith</h1>
+                <p>Log in to your personalized dashboard</p>
+            </div>
+            <div id="login-error" class="text-rose text-center mt-3 hidden"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="input-control" required placeholder="name@school.edu">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="input-control" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn">Log In</button>
+            </form>
+            <div class="auth-footer">
+                Don't have an account? <a href="#" id="show-register-btn">Create one</a>
+            </div>
+        </div>
+
+        <!-- Register Card -->
+        <div id="register-card" class="glass-card hidden">
+            <div class="brand-header">
+                <h1>Create Account</h1>
+                <p>Join the AI-powered learning journey</p>
+            </div>
+            <div id="register-error" class="text-rose text-center mt-3 hidden"></div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" class="input-control" required placeholder="name@school.edu">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" class="input-control" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <div class="auth-footer">
+                Already have an account? <a href="#" id="show-login-btn">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP LAYOUT (Sidebar + Content) -->
+    <div id="app-view" class="app-layout hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-graduation-cap mr-2"></i>StudySmith
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-view="dashboard">
+                    <a href="#" class="nav-link"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
+                </li>
+                <li class="nav-item" data-view="syllabus">
+                    <a href="#" class="nav-link"><i class="fa-solid fa-folder-open"></i>Syllabus Editor</a>
+                </li>
+                <li class="nav-item" data-view="study">
+                    <a href="#" class="nav-link"><i class="fa-solid fa-book-open"></i>Study Space</a>
+                </li>
+                <li class="nav-item" data-view="quiz">
+                    <a href="#" class="nav-link"><i class="fa-solid fa-circle-question"></i>Quiz Zone</a>
+                </li>
+                <li class="nav-item" data-view="planner">
+                    <a href="#" class="nav-link"><i class="fa-solid fa-calendar-days"></i>Exam Schedule</a>
+                </li>
+            </ul>
+            <div class="user-profile-section">
+                <div class="user-info">
+                    <div class="avatar" id="user-avatar">U</div>
+                    <div class="user-details">
+                        <h4 id="user-name-display">Alex Student</h4>
+                        <p id="user-email-display">alex@student.com</p>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary" style="padding: 10px; font-size: 0.9rem;">
+                    <i class="fa-solid fa-right-from-bracket mr-2"></i>Log Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Viewport -->
+        <main class="main-content">
+            
+            <!-- ONBOARDING WIZARD VIEW -->
+            <section id="onboarding-view" class="hidden">
+                <div class="glass-card wizard-card">
+                    <div class="brand-header">
+                        <h2>Personalize Your Platform</h2>
+                        <p>Tell us about your studies to construct your AI syllabus</p>
+                    </div>
+                    
+                    <div class="step-indicator">
+                        <div class="step-dot active" data-step="1">1</div>
+                        <div class="step-dot" data-step="2">2</div>
+                        <div class="step-dot" data-step="3">3</div>
+                    </div>
+
+                    <!-- Step 1: Personal Info -->
+                    <div class="wizard-step active" data-step="1">
+                        <div class="form-group">
+                            <label for="onboard-name">Your Full Name</label>
+                            <input type="text" id="onboard-name" class="input-control" placeholder="e.g., Alex Carter">
+                        </div>
+                        <div class="form-group">
+                            <label for="onboard-country">Country</label>
+                            <input type="text" id="onboard-country" class="input-control" placeholder="e.g., India, USA, UK">
+                        </div>
+                        <button class="btn next-step-btn">Continue</button>
+                    </div>
+
+                    <!-- Step 2: Academic Specs -->
+                    <div class="wizard-step" data-step="2">
+                        <div class="form-group">
+                            <label for="onboard-board">Curriculum/Board</label>
+                            <input type="text" id="onboard-board" class="input-control" placeholder="e.g., CBSE, AP, IB, GCSE">
+                        </div>
+                        <div class="form-group">
+                            <label for="onboard-grade">Grade / Class</label>
+                            <input type="text" id="onboard-grade" class="input-control" placeholder="e.g., 12th Grade, Year 11">
+                        </div>
+                        <div class="form-group">
+                            <label for="onboard-stream">Stream / Major (Optional)</label>
+                            <input type="text" id="onboard-stream" class="input-control" placeholder="e.g., Science, Commerce, Humanities">
+                        </div>
+                        <div style="display: flex; gap: 15px;">
+                            <button class="btn btn-secondary prev-step-btn">Back</button>
+                            <button class="btn next-step-btn">Continue</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Subject Selection -->
+                    <div class="wizard-step" data-step="3">
+                        <div class="form-group">
+                            <label>Select Your Subjects</label>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">We'll generate customized syllabi for each subject selected.</p>
+                            <div class="subject-grid" id="onboard-subjects-grid">
+                                <div class="subject-chip" data-subject="Mathematics">Mathematics</div>
+                                <div class="subject-chip" data-subject="Physics">Physics</div>
+                                <div class="subject-chip" data-subject="Chemistry">Chemistry</div>
+                                <div class="subject-chip" data-subject="Biology">Biology</div>
+                                <div class="subject-chip" data-subject="Computer Science">Computer Science</div>
+                                <div class="subject-chip" data-subject="History">History</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-subject-input">Add Custom Subject</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="custom-subject-input" class="input-control" placeholder="e.g. Economics">
+                                <button type="button" id="add-custom-subject-btn" class="btn btn-secondary" style="width: auto;">Add</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px;">
+                            <button class="btn btn-secondary prev-step-btn">Back</button>
+                            <button id="submit-onboarding-btn" class="btn">Finish & Generate Syllabus</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SYLLABUS GENERATION VIEW -->
+            <section id="generation-view" class="hidden">
+                <div class="glass-card wizard-card" style="max-width: 800px; margin: 0 auto; padding: 40px;">
+                    <div id="gen-loading-state">
+                        <div class="brand-header">
+                            <h2><i class="fa-solid fa-robot fa-spin text-primary-light mr-2"></i>AI Agent Generating Syllabus</h2>
+                            <p id="gen-status-subtext">Constructing personalized chapters according to the official prescribed board curriculum...</p>
+                        </div>
+                        
+                        <!-- Progress Scanner Animation -->
+                        <div class="progress-scanner-container mt-4">
+                            <div class="progress-ring-wrapper">
+                                <div class="progress-spinner-ring"></div>
+                                <div class="progress-center-icon"><i class="fa-solid fa-graduation-cap text-primary-light"></i></div>
+                            </div>
+                        </div>
+
+                        <!-- Real-time Status Logs -->
+                        <div class="generation-logs-container mt-4">
+                            <ul id="generation-logs-list" class="generation-logs-list">
+                                <!-- Real-time steps appended here -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="gen-preview-state" class="hidden">
+                        <div class="brand-header">
+                            <h2>Syllabus Draft Generated!</h2>
+                            <p>Here is the official board structure fetched by the AI Agent. You can preview, adjust, or accept it below.</p>
+                        </div>
+
+                        <div class="tabs-container mt-3">
+                            <div class="tab-nav" id="gen-preview-tabs" style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                                <!-- Enrolled subjects tabs dynamically rendered -->
+                            </div>
+                            <div class="card mt-2" style="max-height: 350px; overflow-y: auto; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);">
+                                <div id="gen-preview-chapters" class="chapter-list">
+                                    <!-- Preview chapters for selected subject -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
+                            <button id="gen-make-changes-btn" class="btn btn-secondary" style="width: auto;"><i class="fa-solid fa-pen mr-2"></i>Make Changes</button>
+                            <button id="gen-save-continue-btn" class="btn" style="width: auto;"><i class="fa-solid fa-circle-check mr-2"></i>Save & Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DASHBOARD VIEW -->
+            <section id="dashboard-view">
+                <div class="dashboard-header">
+                    <div>
+                        <h2>Welcome back, <span id="dash-student-name">Student</span>!</h2>
+                        <p style="color: var(--text-secondary)">Track your study progress and upcoming exams.</p>
+                    </div>
+                    <div id="countdown-widget" class="text-amber" style="font-weight: 700; font-size: 1.1rem; background: rgba(245, 158, 11, 0.1); padding: 10px 18px; border-radius: var(--radius-md); border: 1px solid rgba(245, 158, 11, 0.2)">
+                        <i class="fa-solid fa-hourglass-half mr-2"></i>No exams scheduled
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <i class="fa-solid fa-check-double text-emerald" style="font-size: 1.5rem; margin-bottom: 8px;"></i>
+                        <h3 id="stat-progress">0%</h3>
+                        <p>Total Syllabus Complete</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-clock text-primary-light" style="font-size: 1.5rem; margin-bottom: 8px;"></i>
+                        <h3 id="stat-study-time">0 hrs</h3>
+                        <p>Study Time Today</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-square-poll-horizontal text-amber" style="font-size: 1.5rem; margin-bottom: 8px;"></i>
+                        <h3 id="stat-quizzes">0/0</h3>
+                        <p>Quizzes Completed</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Left: Recent progress checklist -->
+                    <div>
+                        <div class="card">
+                            <h3><i class="fa-solid fa-list-check mr-2 text-primary-light"></i>Today's Study Checklist</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Complete these scheduled revision blocks to keep up with your goals.</p>
+                            <div id="dash-checklist-container">
+                                <p style="color: var(--text-muted); text-align: center;">No tasks set. Head to the Exam Schedule to add items.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3><i class="fa-solid fa-clock-rotate-left mr-2 text-primary-light"></i>Recent Quiz History</h3>
+                            <div id="dash-quiz-history" class="mt-3" style="display: flex; flex-direction: column; gap: 10px;">
+                                <p style="color: var(--text-muted); text-align: center;">No quizzes attempted yet.</p>
+                            </div>
+                        </div>
+
+                        <!-- Syllabus Overview Card with single 'Change' button -->
+                        <div class="card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <h3 style="margin: 0;"><i class="fa-solid fa-graduation-cap mr-2 text-primary-light"></i>Syllabus Overview</h3>
+                                <button id="dash-change-syllabus-btn" class="btn" style="width: auto; padding: 6px 12px; font-size: 0.8rem; margin: 0;"><i class="fa-solid fa-pen mr-1"></i>Change</button>
+                            </div>
+                            <div id="dash-syllabus-overview-container" style="display: flex; flex-direction: column; gap: 12px;">
+                                <p style="color: var(--text-muted); text-align: center;">No subjects selected. Complete onboarding first.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Hydration/Break widgets & Weak topics -->
+                    <div>
+                        <div class="card">
+                            <h3><i class="fa-solid fa-triangle-exclamation mr-2 text-rose"></i>Focus Needed</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 15px;">Weak areas identified by your quizzes. Revise these chapters!</p>
+                            <ul class="weak-topics-list" id="dash-weak-topics">
+                                <li style="color: var(--text-muted); text-align: center; background: none; border: none; padding: 0;">No weak topics found. Good job!</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <h3><i class="fa-solid fa-droplet mr-2 text-primary-light"></i>Hydration & Break Tracker</h3>
+                            <div class="widgets-grid mt-3">
+                                <!-- Water widget -->
+                                <div class="water-container">
+                                    <div class="water-glass">
+                                        <div class="water-fill" id="water-fill-level"></div>
+                                    </div>
+                                    <span id="water-text" style="font-size: 0.9rem; font-weight: 600;">0 / 2000 ml</span>
+                                    <div class="water-controls">
+                                        <button class="action-btn" id="drink-water-btn" title="Add 250ml"><i class="fa-solid fa-plus"></i></button>
+                                        <button class="action-btn" id="reset-water-btn" title="Reset"><i class="fa-solid fa-rotate-left"></i></button>
+                                    </div>
+                                </div>
+                                <!-- Break reminder timer -->
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                    <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); font-weight: 700;">Study Break Timer</span>
+                                    <div id="break-timer-display" style="font-size: 1.8rem; font-weight: 700; margin: 10px 0; font-family: monospace;">15:00</div>
+                                    <div class="timer-controls">
+                                        <button class="action-btn" id="start-break-btn"><i class="fa-solid fa-play"></i></button>
+                                        <button class="action-btn" id="pause-break-btn"><i class="fa-solid fa-pause"></i></button>
+                                        <button class="action-btn" id="reset-break-btn"><i class="fa-solid fa-rotate-left"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SYLLABUS EDITOR VIEW -->
+            <section id="syllabus-view" class="hidden">
+                <div class="dashboard-header">
+                    <div>
+                        <h2>Syllabus Builder</h2>
+                        <p style="color: var(--text-secondary)">Review and customize your AI-generated syllabus. If you have objections or changes, you can add, rename, reorder, or delete chapters below.</p>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 800px;">
+                    <div class="form-group">
+                        <label for="syllabus-subject-select">Select Subject</label>
+                        <select id="syllabus-subject-select" class="input-control"></select>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h4 id="syllabus-title-display">Syllabus Chapters</h4>
+                        <button id="add-chapter-btn" class="btn" style="width: auto; padding: 8px 16px; font-size: 0.85rem;"><i class="fa-solid fa-plus mr-2"></i>Add Chapter</button>
+                    </div>
+
+                    <div id="syllabus-chapters-container" class="chapter-list">
+                        <!-- Chapter Items dynamically rendered -->
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                        <button id="save-syllabus-btn" class="btn" style="width: auto;"><i class="fa-solid fa-floppy-disk mr-2"></i>Save</button>
+                        <button id="regenerate-board-syllabus-btn" type="button" class="btn btn-secondary" style="width: auto; padding: 12px 20px;" onclick="regenerateActiveSyllabus()"><i class="fa-solid fa-arrows-rotate mr-2"></i>Change Syllabus</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STUDY SPACE VIEW -->
+            <section id="study-view" class="hidden">
+                <div class="study-header">
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <h2>Study Space</h2>
+                        <select id="study-subject-select" class="input-control" style="width: 200px; padding: 10px 14px;"></select>
+                    </div>
+                    <div class="tab-nav">
+                        <button class="tab-btn active" data-tab="notes">Study Notes</button>
+                        <button class="tab-btn" data-tab="short-notes">Revision Cards</button>
+                        <button class="tab-btn" data-tab="flashcards">Flashcards</button>
+                        <button class="tab-btn" data-tab="questions">Practice Q&A</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid" style="grid-template-columns: 280px 1fr;">
+                    <!-- Left: Chapter Navigator -->
+                    <div class="card" style="padding: 20px; max-height: 70vh; overflow-y: auto;">
+                        <h4 style="margin-bottom: 15px; color: var(--text-secondary);">Chapters</h4>
+                        <div id="study-chapters-nav" style="display: flex; flex-direction: column; gap: 8px;">
+                            <!-- Dynamically loaded list -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Material Display -->
+                    <div class="card" id="material-content-card" style="min-height: 60vh; position: relative;">
+                        <!-- Notes tab content -->
+                        <div class="study-tab-content active" id="tab-content-notes">
+                            <div id="notes-markdown-view" class="notes-view">
+                                <p style="color: var(--text-muted); text-align: center; margin-top: 50px;">Select a chapter from the navigator to start studying.</p>
+                            </div>
+                        </div>
+
+                        <!-- Short notes tab -->
+                        <div class="study-tab-content hidden" id="tab-content-short-notes">
+                            <div id="short-notes-markdown-view" class="notes-view">
+                                <p style="color: var(--text-muted); text-align: center; margin-top: 50px;">Select a chapter to fetch revision details.</p>
+                            </div>
+                        </div>
+
+                        <!-- Flashcards tab -->
+                        <div class="study-tab-content hidden" id="tab-content-flashcards">
+                            <div class="flashcards-container">
+                                <div class="flashcard-wrapper" id="flashcard-box">
+                                    <div class="flashcard-inner">
+                                        <div class="flashcard-front">
+                                            <h3 id="card-front-text">Front Text</h3>
+                                        </div>
+                                        <div class="flashcard-back">
+                                            <p id="card-back-text">Back Text</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-nav">
+                                    <button class="action-btn" id="prev-card-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                                    <span class="card-indicator" id="card-index-indicator">0 / 0</span>
+                                    <button class="action-btn" id="next-card-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Practice Q&A -->
+                        <div class="study-tab-content hidden" id="tab-content-questions">
+                            <div id="questions-list-view" style="display: flex; flex-direction: column; gap: 20px;">
+                                <p style="color: var(--text-muted); text-align: center; margin-top: 50px;">Select a chapter to practice questions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QUIZ ZONE VIEW -->
+            <section id="quiz-view" class="hidden">
+                <div class="dashboard-header">
+                    <div>
+                        <h2>Quiz Zone</h2>
+                        <p style="color: var(--text-secondary)">Test your knowledge and evaluate weak spots instantly.</p>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 700px; margin: 0 auto;">
+                    <!-- Quiz Prep Configuration -->
+                    <div id="quiz-prep-box">
+                        <div class="form-group">
+                            <label for="quiz-subject-select">Select Subject</label>
+                            <select id="quiz-subject-select" class="input-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quiz-chapter-select">Select Chapter</label>
+                            <select id="quiz-chapter-select" class="input-control"></select>
+                        </div>
+                        <button id="start-quiz-btn" class="btn mt-3"><i class="fa-solid fa-play mr-2"></i>Start Quiz</button>
+                    </div>
+
+                    <!-- Live Quiz Interface -->
+                    <div id="quiz-active-box" class="hidden">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="quiz-progress-bar"></div>
+                        </div>
+                        
+                        <div class="quiz-question-box">
+                            <span id="quiz-question-num" style="color: var(--primary-light); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Question 1 of 5</span>
+                            <h3 id="quiz-question-text" style="margin-top: 10px; font-weight: 700;">Question Text?</h3>
+                            
+                            <div class="quiz-options" id="quiz-options-container">
+                                <!-- Option buttons loaded here -->
+                            </div>
+                        </div>
+
+                        <div id="quiz-explanation-box" class="explanation-box hidden">
+                            <strong>Explanation:</strong> <span id="quiz-explanation-text">...</span>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                            <button id="quiz-prev-btn" class="btn btn-secondary" style="width: auto;">Previous</button>
+                            <button id="quiz-next-btn" class="btn" style="width: auto;">Next / Submit</button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Results Interface -->
+                    <div id="quiz-results-box" class="hidden" style="text-align: center; padding: 20px 0;">
+                        <i class="fa-solid fa-circle-check text-emerald" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                        <h2>Quiz Finished!</h2>
+                        <div style="font-size: 3rem; font-weight: 800; margin: 20px 0; color: var(--text-primary);">
+                            <span id="quiz-results-score">0</span> / <span id="quiz-results-total">5</span>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 30px;">Your responses have been processed by our AI agent.</p>
+                        
+                        <div id="quiz-weak-topics-box" class="card" style="background: rgba(244, 63, 94, 0.04); border-color: rgba(244, 63, 94, 0.1); margin: 0 auto 30px auto; max-width: 500px; text-align: left;">
+                            <h4 style="color: #fecdd3;"><i class="fa-solid fa-triangle-exclamation mr-2 text-rose"></i>Areas of Revision Suggested:</h4>
+                            <ul class="weak-topics-list mt-3" id="quiz-weak-topics-list"></ul>
+                        </div>
+                        
+                        <button id="exit-quiz-btn" class="btn" style="width: auto; padding: 12px 30px;">Return to Dashboard</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXAM SCHEDULE VIEW -->
+            <section id="planner-view" class="hidden">
+                <div class="dashboard-header">
+                    <div>
+                        <h2>Exam Study Schedule</h2>
+                        <p style="color: var(--text-secondary)">Design your exam dates, study blocks, and log progress.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Left: Exam schedule & habit schedule editor -->
+                    <div class="card">
+                        <h3><i class="fa-solid fa-wand-magic-sparkles mr-2 text-primary-light"></i>AI Exam Study Plan Generator</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Paste your exam subjects and dates below to automatically build an AI-optimized day-by-day study schedule.</p>
+                        <div class="form-group">
+                            <label for="planner-datesheet-text">Paste Datesheet (e.g. Subject: YYYY-MM-DD)</label>
+                            <textarea id="planner-datesheet-text" class="input-control" rows="4" placeholder="Mathematics: 2026-07-20&#10;Physics: 2026-07-25" style="resize: vertical; font-family: monospace;"></textarea>
+                        </div>
+                        <button id="generate-ai-schedule-btn" class="btn"><i class="fa-solid fa-compass-drafting mr-2"></i>Generate AI Revision Plan</button>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fa-solid fa-pen-to-square mr-2 text-primary-light"></i>Schedule Settings</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 25px;">Define upcoming exam dates and configure daily study blocks.</p>
+                        
+                        <form id="planner-settings-form">
+                             <!-- Exam Date setting -->
+                             <div class="form-group">
+                                 <label><i class="fa-solid fa-list-check mr-2 text-primary-light"></i>Active Exam Schedule & Stats</label>
+                                 <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Your configured exams, allotted study days, and syllabus workload stats.</p>
+                                 
+                                 <div id="planner-exams-list-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                                     <!-- Rendered dynamically -->
+                                 </div>
+
+                                 <label style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); margin-top: 15px;">Add/Update Exam Date</label>
+                                 <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center;">
+                                     <input type="text" id="planner-exam-subject" class="input-control" placeholder="Subject Name (e.g. Physics)">
+                                     <input type="date" id="planner-exam-date" class="input-control">
+                                     <button type="button" class="btn" style="width: auto; padding: 12px;" onclick="addExamToSchedule()"><i class="fa-solid fa-plus"></i></button>
+                                 </div>
+                             </div>
+
+                            <hr style="border: none; border-top: 1px solid var(--panel-border); margin: 25px 0;">
+
+                            <!-- Daily Routine editor -->
+                            <div class="form-group">
+                                <label>Wake up Time</label>
+                                <input type="time" id="planner-wake-time" class="input-control" value="07:00">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Daily Study Routines</label>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 10px;">Specify your active study and break times.</p>
+                                <div id="routine-blocks-list" style="display: flex; flex-direction: column; gap: 10px;">
+                                    <!-- Dynamic blocks -->
+                                </div>
+                                <button type="button" id="add-routine-block-btn" class="btn btn-secondary mt-3" style="width: auto; padding: 8px 16px; font-size: 0.85rem;"><i class="fa-solid fa-plus mr-2"></i>Add Study Block</button>
+                            </div>
+
+                            <button type="submit" class="btn mt-3"><i class="fa-solid fa-floppy-disk mr-2"></i>Save Schedule Configuration</button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Interactive Study Calendar & Checklist -->
+                     <div class="card">
+                         <h3><i class="fa-solid fa-calendar-days mr-2 text-primary-light"></i>Interactive Study Calendar</h3>
+                         <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Click on any date to view and manage its study tasks.</p>
+                         
+                         <!-- Month selector header -->
+                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--panel-border);">
+                             <button type="button" class="action-btn" onclick="shiftCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                             <h4 id="calendar-month-year-display" style="margin: 0; font-size: 1rem; color: var(--text-primary); font-weight: 600;">July 2026</h4>
+                             <button type="button" class="action-btn" onclick="shiftCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                         </div>
+                         
+                         <!-- Calendar grid container -->
+                         <div id="calendar-widget-wrapper" style="margin-bottom: 25px;">
+                             <!-- Days of Week Header -->
+                             <div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase;">
+                                 <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+                             </div>
+                             <!-- Days Grid -->
+                             <div id="study-calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;">
+                                 <!-- Rendered dynamically in app.js -->
+                             </div>
+                         </div>
+
+                         <hr style="border: none; border-top: 1px solid var(--panel-border); margin: 25px 0;">
+
+                         <div id="calendar-tasks-view">
+                             <h4 style="color: var(--text-primary); font-size: 0.95rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                 <i class="fa-solid fa-list-check text-primary-light"></i>
+                                 <span id="selected-date-title">Study Checklist</span>
+                             </h4>
+                             
+                             <div id="planner-checklist-container" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto;">
+                                 <!-- Dynamic checklist checkboxes for selected day -->
+                             </div>
+
+                             <div class="form-group mt-4">
+                                 <label id="add-task-label-date" for="new-checklist-task">Add Study Task for Selected Date</label>
+                                 <div style="display: flex; gap: 10px;">
+                                     <input type="text" id="new-checklist-task" class="input-control" placeholder="e.g. Solve Math Chapter 1 quiz">
+                                     <button id="add-checklist-task-btn" class="btn" style="width: auto; padding: 12px 20px;" onclick="addNewChecklistTask()"><i class="fa-solid fa-plus"></i></button>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <hr style="border: none; border-top: 1px solid var(--panel-border); margin: 25px 0;">
+
+                         <h3><i class="fa-solid fa-sliders mr-2 text-primary-light"></i>Browser Notification Settings</h3>
+                         <div class="form-group mt-3" style="display: flex; align-items: center; justify-content: space-between;">
+                             <div>
+                                 <label style="margin-bottom: 0; text-transform: none; letter-spacing: 0;">Enable Break & Hydration Reminders</label>
+                                 <p style="color: var(--text-secondary); font-size: 0.8rem;">Show web notifications when it is time to take a break or drink water.</p>
+                             </div>
+                             <input type="checkbox" id="notification-toggle" style="width: 20px; height: 20px; cursor: pointer;">
+                         </div>
+                         <button id="test-notification-btn" class="btn btn-secondary mt-3" style="font-size: 0.85rem;"><i class="fa-solid fa-bell mr-2"></i>Test Notifications & Toasts</button>
+                     </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Water Reminder Modal Popup -->
+    <div id="water-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-card">
+            <h3><i class="fa-solid fa-droplet text-primary-light mr-2"></i>Hydration Reminder</h3>
+            <p>It's time to drink some water and stay focused! Would you like to log a drink now?</p>
+            <div class="modal-actions">
+                <button id="modal-drink-btn" class="btn btn-primary" style="width: auto; padding: 10px 20px;"><i class="fa-solid fa-droplet mr-2"></i>Drink (250ml)</button>
+                <button id="modal-cancel-btn" class="btn btn-secondary" style="width: auto; padding: 10px 20px;"><i class="fa-solid fa-xmark mr-2"></i>Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reschedule / Encourage Modal Popup -->
+    <div id="reschedule-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-card" style="max-width: 480px; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🌟</div>
+            <h3 id="reschedule-modal-title">Don't stress, you've got this!</h3>
+            <p id="reschedule-modal-text" style="color: var(--text-secondary); margin: 15px 0; line-height: 1.6;"></p>
+            <div class="modal-actions" style="margin-top: 20px;">
+                <button id="modal-reschedule-btn" class="btn btn-primary" style="width: auto; padding: 10px 20px;"><i class="fa-solid fa-calendar-day mr-2"></i>Reschedule Tasks</button>
+                <button id="modal-reschedule-skip-btn" class="btn btn-secondary" style="width: auto; padding: 10px 20px;"><i class="fa-solid fa-xmark mr-2"></i>Dismiss</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Congratulations Modal Popup -->
+    <div id="congrats-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-card" style="max-width: 450px; text-align: center; border: 1px solid rgba(110, 68, 255, 0.3);">
+            <div style="font-size: 4rem; margin-bottom: 15px; animation: bounce 1s infinite alternate; display: inline-block;">🏆</div>
+            <h3>Congratulations! 🎉</h3>
+            <p id="congrats-modal-text" style="color: var(--text-secondary); margin: 15px 0; line-height: 1.6;">You've completed all your study tasks scheduled for today! You're making fantastic progress towards your goals. Take a well-deserved break!</p>
+            <div class="modal-actions" style="margin-top: 20px; justify-content: center;">
+                <button id="modal-congrats-btn" class="btn btn-primary" style="width: auto; padding: 10px 30px;"><i class="fa-solid fa-thumbs-up mr-2"></i>Awesome!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container for overlay notifications -->
+    <div id="toast-container" style="position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;"></div>
+
+    <!-- Application JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
