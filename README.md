@@ -54,13 +54,13 @@ graph TD
     API -->|Syllabus Request| Agent["Gemini Concierge Agent"]
     API -->|Datesheet & Routine| Scheduler["AI Study Scheduler"]
     
-    subgraph Agentic Operations
+    subgraph agentic_ops ["Agentic Operations"]
         Agent -->|Generate Syllabus| SSchema["Syllabus Schema"]
         Agent -->|Generate Materials| MSchema["Markdown Notes & Q&A"]
         Agent -->|Evaluate Quiz| ESchema["Weak Topics Extractor"]
     end
     
-    subgraph Scheduling Pipeline
+    subgraph scheduling_pipeline ["Scheduling Pipeline"]
         Scheduler -->|Cost-Based Load Balancing| Cal["SQLite Planner Table"]
     end
     
